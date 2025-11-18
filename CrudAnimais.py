@@ -1,147 +1,183 @@
-def cabecalho():
-    arquivo_animais = open('animais.txt', 'a', encoding='utf-8')
-    arquivo_animais.close()
+# CrudAnimais.py
+ARQUIVO_ANIMAIS = "animais.txt"
 
-    arquivo_animais = open('animais.txt', 'r', encoding='utf-8')
-    conteudo = arquivo_animais.read()
-    arquivo_animais.close()
-
-    if conteudo.strip() == "":
-        arquivo_animais = open('animais.txt', 'a', encoding='utf-8')
-        arquivo_animais.write(f"|{'NOME':^12}|{'ESPÉCIE':^12}|{'RAÇA':^12}|{'IDADE':^7}|{'SEXO':^7}|{'ESTADO DE SAÚDE':^20}|{'DATA DE CHEGADA':^20}|{'COMPORTAMENTO':^18}|\n")
-        arquivo_animais.close()
+# Cores (ANSI)
+VERDE = '\033[92m'
+VERMELHO = '\033[91m'
+AZUL = '\033[94m'
+AMARELO = '\033[93m'
+RESET = '\033[0m'
 
 
-def organizarTexto(texto):
-    print('-' * len(texto))
-    print(texto)
-    print('-' * len(texto))
-
-
-def adicionarAnimal():
-    arquivo_animais = open('animais.txt', 'a', encoding='utf-8')
-
-    nome = str(input('Digite o nome do animal: ')).capitalize()
-    especie = str(input('Digite a espécie do animal: ')).capitalize()
-    raca = str(input('Digite a raça do animal: ')).capitalize()
-    idade = str(input('Digite a idade do animal: ')).capitalize()
-    sexo = str(input('Digite o sexo do animal: ')).capitalize()
-    estado = str(input('Digite o estado de saúde do animal: ')).capitalize()
-    data = str(input('Digite a data de chegada do animal: '))
-    comportamento = str(input('Digite o comportamento do animal: ')).capitalize()
-
-    arquivo_animais.write(f'|{nome:^12}|{especie:^12}|{raca:^12}|{idade:^7}|{sexo:^7}|{estado:^20}|{data:^20}|{comportamento:^18}|\n')
-    print('Animal cadastrado com sucesso!')
-    arquivo_animais.close()
-
-
-def visualizarAnimais():
-    arquivo_animais = open('animais.txt', 'r', encoding='utf-8')
-    print(arquivo_animais.read())
-    arquivo_animais.close()
-
-
-def editar_animal():
-    arquivo = open('animais.txt', 'r', encoding="utf-8")
-    linhas = arquivo.readlines()
-    arquivo.close()
-
-    if len(linhas) <= 1:
-        print("Não existe nada a ser editado.")
-        return  
-
-    while True:
-        print(f'{"ID":^3}\t{linhas[0].strip()}')  
-        for i in range(1, len(linhas)):
-            print(f'{i:^3}\t{linhas[i]}', end='')
-
-        try:
-            pergunta = int(input('1 - Excluir animal\n2 - Editar animal\n3 - Excluir lista completa\n4 - Encerrar\nDigite a opção desejada: '))
-        except ValueError:
-            print('Entrada inválida')
-            continue
-
-        if pergunta == 1:
-            try:
-                id_excluir = int(input('Digite o ID do animal para ser excluído: \n'))
-                if 1 <= id_excluir < len(linhas):
-                    del linhas[id_excluir]
-                    arquivo = open('animais.txt', 'w', encoding="utf-8")
-                    arquivo.writelines(linhas)
-                    arquivo.close()
-                    print('Animal excluído com sucesso!')
-                else:
-                    print('ID inválido')
-            except ValueError:
-                print('Entrada inválida!')
-
-        elif pergunta == 2:
-            try:
-                id_editar = int(input('Qual o ID do animal a ser editado: '))
-                if 1 <= id_editar < len(linhas):
-                    print('Digite os novos dados:')
-                    nome = input('Nome: ').capitalize()
-                    especie = input('Espécie: ').capitalize()
-                    raca = input('Raça: ').capitalize()
-                    idade = input('Idade: ').capitalize()
-                    sexo = input('Sexo: ').capitalize()
-                    estado = input('Estado de saúde: ').capitalize()
-                    data = input('Data de chegada: ')
-                    comportamento = input('Comportamento: ').capitalize()
-
-                    nova = f'|{nome:^12}|{especie:^12}|{raca:^12}|{idade:^7}|{sexo:^7}|{estado:^20}|{data:^20}|{comportamento:^18}|\n'
-                    linhas[id_editar] = nova
-
-                    arquivo = open('animais.txt', 'w', encoding="utf-8")
-                    arquivo.writelines(linhas)
-                    arquivo.close()
-                    print('Animal editado com sucesso!')
-                    visualizarAnimais()
-                    return
-                else:
-                    print('ID inválido')
-            except ValueError:
-                print('Entrada inválida')
-
-        elif pergunta == 3:
-            conf = input('Tem certeza que deseja excluir toda a lista? [S/N]: ').upper()
-            if conf == 'S':
-                arquivo = open('animais.txt', 'w', encoding="utf-8")
-                arquivo.close()
-                cabecalho()
-                print('Lista excluída com sucesso!')
-                return
-            else:
-                print('Operação cancelada')
-
-        elif pergunta == 4:
-            print("Encerrando edição...")
-            break
-
-        else:
-            print('Opção inválida.')
-
-cabecalho()
-print('Sistema de Gestão para Centros de Adoção de Animais')
-while True:
+def carregar_animais():
+    """
+    Lê animais no formato:
+    id;nome;especie;raca;idade;sexo;estado_saude;data_chegada;comportamento
+    Retorna lista de dicts.
+    """
+    animais = []
     try:
-        questionamento = int(input('1. Adicionar Animal\n2. Visualizar Animais\n3. Editar Animais\n4. Sair\nDigite a opção desejada: '))
-    except ValueError:
-        print('\033[31mERRO: por favor, digite um número inteiro válido.\033[m')
-        continue
-    except KeyboardInterrupt:
-        print('\n\033[31mUsuário preferiu não digitar esse número.\033[m')
-        continue
+        with open(ARQUIVO_ANIMAIS, "r", encoding="utf-8") as arq:
+            for linha in arq:
+                linha = linha.strip()
+                if not linha:
+                    continue
+                partes = linha.split(";")
+                if len(partes) < 9:
+                    # linha incompleta -> ignora
+                    continue
+                try:
+                    animais.append({
+                        "id": int(partes[0]),
+                        "nome": partes[1],
+                        "especie": partes[2],
+                        "raca": partes[3],
+                        "idade": partes[4],
+                        "sexo": partes[5],
+                        "estado_saude": partes[6],
+                        "data_chegada": partes[7],
+                        "comportamento": partes[8]
+                    })
+                except:
+                    continue
+    except FileNotFoundError:
+        pass
+    return animais
 
-    if questionamento == 1:
-        adicionarAnimal()
-    elif questionamento == 2:
-        visualizarAnimais()
-    elif questionamento == 3:
-        editar_animal()
-    elif questionamento == 4:
-        print('Saindo...')
-        break
-    else:
-        print('Digite uma opção válida!')
-        
+
+def salvar_animais(animais):
+    """Escreve lista de animais no arquivo (substitui tudo)."""
+    with open(ARQUIVO_ANIMAIS, "w", encoding="utf-8") as arq:
+        for a in animais:
+            arq.write(
+                f"{a['id']};{a['nome']};{a['especie']};{a['raca']};"
+                f"{a['idade']};{a['sexo']};{a['estado_saude']};"
+                f"{a['data_chegada']};{a['comportamento']}\n"
+            )
+
+
+def _proximo_id(animais):
+    """Retorna próximo ID baseado na lista (auto-increment)."""
+    if not animais:
+        return 1
+    try:
+        max_id = max(a["id"] for a in animais)
+        return max_id + 1
+    except:
+        return len(animais) + 1
+
+
+def id_existe_animal(id_animal):
+    """Verifica se um ID de animal existe (True/False)."""
+    animais = carregar_animais()
+    for a in animais:
+        if a["id"] == id_animal:
+            return True
+    return False
+
+
+def adicionar_animal():
+    """Adiciona novo animal (ID gerado automaticamente)."""
+    animais = carregar_animais()
+    novo_id = _proximo_id(animais)
+
+    print(f"ID gerado: {novo_id} (não é necessário digitar)")
+
+    nome = input("Nome: ").strip()
+    especie = input("Espécie: ").strip()
+    raca = input("Raça: ").strip()
+    idade = input("Idade: ").strip()
+    sexo = input("Sexo: ").strip()
+    estado_saude = input("Estado de saúde: ").strip()
+    data_chegada = input("Data de chegada (DD/MM/AAAA): ").strip()
+    comportamento = input("Comportamento: ").strip()
+
+    animais.append({
+        "id": novo_id,
+        "nome": nome,
+        "especie": especie,
+        "raca": raca,
+        "idade": idade,
+        "sexo": sexo,
+        "estado_saude": estado_saude,
+        "data_chegada": data_chegada,
+        "comportamento": comportamento
+    })
+
+    salvar_animais(animais)
+    print(VERDE + f"Animal cadastrado com sucesso! (ID: {novo_id})" + RESET)
+
+
+def visualizar_animais():
+    """Mostra a lista de animais formatada."""
+    animais = carregar_animais()
+    if not animais:
+        print(VERMELHO + "Nenhum animal cadastrado." + RESET)
+        return
+
+    print(AZUL + "\n=== ANIMAIS CADASTRADOS ===" + RESET)
+    for a in animais:
+        print(
+            f"ID: {a['id']} | Nome: {a['nome']} | Espécie: {a['especie']} | Raça: {a['raca']} | "
+            f"Idade: {a['idade']} | Sexo: {a['sexo']} | Estado: {a['estado_saude']} | "
+            f"Chegada: {a['data_chegada']} | Comportamento: {a['comportamento']}"
+        )
+
+
+def editar_animais():
+    """Editar animal por ID (mantém campos se entrada vazia)."""
+    animais = carregar_animais()
+    if not animais:
+        print(VERMELHO + "Nenhum animal cadastrado." + RESET)
+        return
+
+    visualizar_animais()
+    try:
+        id_edit = int(input("ID do animal a editar: ").strip())
+    except:
+        print(VERMELHO + "ID inválido!" + RESET)
+        return
+
+    for a in animais:
+        if a["id"] == id_edit:
+            print("Deixe vazio para manter o valor atual.")
+            novo_nome = input(f"Nome [{a['nome']}]: ").strip()
+            novo_especie = input(f"Espécie [{a['especie']}]: ").strip()
+            nova_raca = input(f"Raça [{a['raca']}]: ").strip()
+            nova_idade = input(f"Idade [{a['idade']}]: ").strip()
+            novo_sexo = input(f"Sexo [{a['sexo']}]: ").strip()
+            novo_estado = input(f"Estado de saúde [{a['estado_saude']}]: ").strip()
+            nova_data = input(f"Data de chegada [{a['data_chegada']}]: ").strip()
+            novo_comport = input(f"Comportamento [{a['comportamento']}]: ").strip()
+
+            if novo_nome:
+                a["nome"] = novo_nome
+            if novo_especie:
+                a["especie"] = novo_especie
+            if nova_raca:
+                a["raca"] = nova_raca
+            if nova_idade:
+                a["idade"] = nova_idade
+            if novo_sexo:
+                a["sexo"] = novo_sexo
+            if novo_estado:
+                a["estado_saude"] = novo_estado
+            if nova_data:
+                a["data_chegada"] = nova_data
+            if novo_comport:
+                a["comportamento"] = novo_comport
+
+            salvar_animais(animais)
+            print(VERDE + "Animal atualizado!" + RESET)
+            return
+
+    print(VERMELHO + "Animal não encontrado." + RESET)
+
+
+def obter_nome_animal(id_animal):
+    """Retorna o nome do animal (ou None)."""
+    animais = carregar_animais()
+    for a in animais:
+        if a["id"] == id_animal:
+            return a["nome"]
+    return None
