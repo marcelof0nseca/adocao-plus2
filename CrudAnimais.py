@@ -1,7 +1,6 @@
-# CrudAnimais.py
 ARQUIVO_ANIMAIS = "animais.txt"
 
-# Cores (ANSI)
+
 VERDE = '\033[92m'
 VERMELHO = '\033[91m'
 AZUL = '\033[94m'
@@ -24,7 +23,6 @@ def carregar_animais():
                     continue
                 partes = linha.split(";")
                 if len(partes) < 9:
-                    # linha incompleta -> ignora
                     continue
                 try:
                     animais.append({
