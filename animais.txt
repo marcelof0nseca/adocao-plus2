@@ -1,2 +1,1 @@
-1;a;a;a;a;a;a;a;a
-2;w;w;w;w;w;w;08/06/2026;calmo
+1;thor;cachorro;spitiz;4;macho;saudavel;09/02/2025;calmo

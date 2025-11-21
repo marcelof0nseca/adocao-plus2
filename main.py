@@ -1,6 +1,10 @@
-from CrudAnimais import adicionar_animal, visualizar_animais, editar_animais, AZUL, RESET
+from CrudAnimais import adicionar_animal, visualizar_animais, editar_animais, AZUL,VERMELHO, RESET
 from CadastroDeCuidados import cadastrar_tarefa, listar_tarefas, editar_tarefa, excluir_tarefa
 from ContagemRegressiva import exibir_alertas, verificar_alertas_proximos
+from recomendador import recomendar_animal
+
+
+
 
 def cabecalho():
     print(AZUL + "=== Sistema de Adoção ===" + RESET)
@@ -16,7 +20,8 @@ def menu():
         print("6. Editar Tarefa")
         print("7. Excluir Tarefa")
         print("8. Visualizar Alertas")
-        print("9. Sair")
+        print("9. Recomendar Animal")
+        print("10. Sair")
         
 
         opcao = input("Escolha: ").strip()
@@ -38,11 +43,13 @@ def menu():
         elif opcao == "8":
             exibir_alertas()
         elif opcao == "9":
-            print("Saindo...")
+            recomendar_animal()
+        elif opcao == "10":
             break
         
+        
         else:
-            print("Opção inválida!")
+            print(VERMELHO + "Opção inválida!" + RESET)
 
 if __name__ == "__main__":
     menu()
