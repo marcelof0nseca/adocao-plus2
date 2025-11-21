@@ -1,7 +1,7 @@
 from CrudAnimais import adicionar_animal, visualizar_animais, editar_animais, AZUL,VERMELHO, RESET
 from CadastroDeCuidados import cadastrar_tarefa, listar_tarefas, editar_tarefa, excluir_tarefa
 from ContagemRegressiva import exibir_alertas, verificar_alertas_proximos
-from recomendador import recomendar_animal
+from Recomendador import recomendar_animal
 
 
 
