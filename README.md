@@ -139,3 +139,9 @@ Tornar o sistema mais completo, interativo e inovador.
 ---
 
 
+##integrantes
+-Marcelo
+-Gabriel
+-Joao
+-Meira
+-Eduardo

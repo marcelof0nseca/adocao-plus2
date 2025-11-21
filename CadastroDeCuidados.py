@@ -1,5 +1,3 @@
-# CadastroDeCuidados.py
-
 from CrudAnimais import id_existe_animal, obter_nome_animal, VERDE, VERMELHO, AMARELO, RESET
 
 ARQUIVO_CUIDADOS = "cuidados.txt"
