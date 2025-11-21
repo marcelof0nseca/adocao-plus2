@@ -73,3 +73,18 @@ def verificar_alertas_proximos(dias_limite=7):
             })
 
     return proximos
+
+def exibir_alertas_proximos():
+    proximos = verificar_alertas_proximos()
+    
+    if not proximos:
+        print("Nenhum alerta próximo.")
+        return
+
+    print(f"\n{AZUL}=== ALERTAS PRÓXIMOS (até 7 dias) ==={RESET}")
+    for p in proximos:
+        print(f"Animal: {p['nome']} (ID {p['id_animal']})")
+        print(f"Tarefa: {p['descricao']}")
+        print(f"Responsável: {p['responsavel']}")
+        print(f"Data prevista: {p['data_prevista']}")
+        print(f"Faltam {p['dias_restantes']} dia(s)\n")
