@@ -1,3 +1,7 @@
+from CrudAnimais import AMARELO, RESET
+
+
+
 def sugestoes_personalizadas(idade, especie):
 
     adotantes = []
@@ -63,7 +67,7 @@ def sugestoes_personalizadas(idade, especie):
         print("Espécie inválida. Use 'gato' ou 'cachorro'.")
         return
 
-    print("\nSugestões Personalizadas:")
+    print(f"\n{AMARELO}SUGESTÕES PERSONALIZADAS:{RESET}")
     print("Adotantes:", ", ".join(adotantes))
     print("Cuidados:", ", ".join(cuidados))
     print("Compatibilidade:", ", ".join(compatibilidade))
@@ -76,4 +80,5 @@ def main_sugestoes():
     especie = input("Digite a espécie (gato/cachorro): ").lower()
     sugestoes_personalizadas(idade, especie)
 
-main_sugestoes()
+if __name__ == "__main__":
+    main_sugestoes()  # Só roda se você ABRIR esse arquivo diretamente
