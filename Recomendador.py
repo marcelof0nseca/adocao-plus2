@@ -1,5 +1,5 @@
 # Recomendador
-from CrudAnimais import carregar_animais, AMARELO, RESET
+from CrudAnimais import carregar_animais, AMARELO, RESET, AZUL
 
 def recomendar_animal():
     """
@@ -7,7 +7,7 @@ def recomendar_animal():
     Pergunta características e escolhe o mais compatível.
     """
 
-    print("\n=== RECOMENDAÇÃO DE ANIMAL ===")
+    print(f"\n{AZUL}=== RECOMENDAÇÃO DE ANIMAL ==={RESET}")
 
     especie_p = input("Qual espécie você prefere? (cachorro/gato/outro): ").strip().lower()
     temperamento_p = input("Prefere comportamento calmo, ativo ou indiferente? ").strip().lower()
@@ -25,15 +25,12 @@ def recomendar_animal():
     for a in animais:
         pontuacao = 0
 
-        # Preferência de espécie
         if especie_p != "indiferente" and especie_p == a["especie"].lower():
             pontuacao += 2
 
-        # Temperamento (busca palavras no comportamento)
         if temperamento_p != "indiferente" and temperamento_p in a["comportamento"].lower():
             pontuacao += 2
 
-        # Idade (avaliando texto)
         if idade_p != "indiferente" and idade_p in a["idade"].lower():
             pontuacao += 1
 
