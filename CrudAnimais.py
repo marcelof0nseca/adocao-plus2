@@ -1,6 +1,5 @@
 ARQUIVO_ANIMAIS = "animais.txt"
 
-# CORES
 VERDE = '\033[92m'
 VERMELHO = '\033[91m'
 AZUL = '\033[94m'
@@ -8,16 +7,7 @@ AMARELO = '\033[93m'
 RESET = '\033[0m'
 
 
-# ============================================================
-#                 CARREGAR E SALVAR ANIMAIS
-# ============================================================
-
 def carregar_animais():
-    """
-    Lê animais no formato:
-    id;nome;especie;raca;idade;sexo;estado_saude;data_chegada;comportamento
-    Retorna lista de dicionários.
-    """
     animais = []
     try:
         with open(ARQUIVO_ANIMAIS, "r", encoding="utf-8") as arq:
@@ -53,19 +43,14 @@ def salvar_animais(animais):
             )
 
 
-# ============================================================
-#                     FUNÇÕES AUXILIARES
-# ============================================================
 
 def _proximo_id(animais):
-    """Retorna o próximo ID disponível."""
     if not animais:
         return 1
     return max(a["id"] for a in animais) + 1
 
 
 def id_existe_animal(id_animal):
-    """Retorna True se o ID existir."""
     for a in carregar_animais():
         if a["id"] == id_animal:
             return True
@@ -73,19 +58,13 @@ def id_existe_animal(id_animal):
 
 
 def obter_nome_animal(id_animal):
-    """Retorna nome do animal ou None."""
     for a in carregar_animais():
         if a["id"] == id_animal:
             return a["nome"]
     return None
 
 
-# ============================================================
-#                     FUNÇÕES PRINCIPAIS
-# ============================================================
-
 def adicionar_animal():
-    """Cadastra um novo animal, ID automático."""
     animais = carregar_animais()
     novo_id = _proximo_id(animais)
 
@@ -117,7 +96,6 @@ def adicionar_animal():
 
 
 def visualizar_animais():
-    """Exibe todos os animais cadastrados."""
     animais = carregar_animais()
 
     if not animais:
@@ -134,7 +112,6 @@ def visualizar_animais():
 
 
 def editar_animais():
-    """Edita campos de um animal mantendo o valor atual caso deixe em branco."""
     animais = carregar_animais()
 
     if not animais:
