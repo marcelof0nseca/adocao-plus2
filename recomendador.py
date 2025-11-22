@@ -25,15 +25,12 @@ def recomendar_animal():
     for a in animais:
         pontuacao = 0
 
-        # Preferência de espécie
         if especie_p != "indiferente" and especie_p == a["especie"].lower():
             pontuacao += 2
 
-        # Temperamento (busca palavras no comportamento)
         if temperamento_p != "indiferente" and temperamento_p in a["comportamento"].lower():
             pontuacao += 2
 
-        # Idade (avaliando texto)
         if idade_p != "indiferente" and idade_p in a["idade"].lower():
             pontuacao += 1
 
