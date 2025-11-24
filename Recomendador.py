@@ -1,4 +1,3 @@
-# Recomendador
 from CrudAnimais import carregar_animais, AMARELO, RESET, AZUL
 
 def recomendar_animal():

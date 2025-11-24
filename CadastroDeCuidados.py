@@ -71,7 +71,7 @@ def listar_tarefas(id_animal=None):
 
     print(AMARELO + "\n===== LISTA DE TAREFAS =====" + RESET)
 
-    mapa = {}  # indice mostrado → indice real da lista
+    mapa = {}  
 
     contador = 1
     for i, c in enumerate(cuidados):
