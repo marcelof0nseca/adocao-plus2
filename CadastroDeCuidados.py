@@ -67,17 +67,29 @@ def listar_tarefas(id_animal=None):
     cuidados = carregar_cuidados()
     if not cuidados:
         print(VERMELHO + "Nenhuma tarefa cadastrada." + RESET)
-        return
+        return {}
 
     print(AMARELO + "\n===== LISTA DE TAREFAS =====" + RESET)
-    for idx, c in enumerate(cuidados, start=1):
+
+    mapa = {}  # indice mostrado → indice real da lista
+
+    contador = 1
+    for i, c in enumerate(cuidados):
         if id_animal is not None and c["id_animal"] != id_animal:
             continue
+
+        mapa[contador] = i
+
         nome = obter_nome_animal(c["id_animal"]) or "Desconhecido"
-        print(f"[{idx}] Animal: {nome} (ID {c['id_animal']})")
+        print(f"[{contador}] Animal: {nome} (ID {c['id_animal']})")
         print(f"     Descrição: {c['descricao']}")
         print(f"     Data prevista: {c['data_prevista']}")
         print(f"     Responsável: {c['responsavel']}\n")
+
+        contador += 1
+
+    return mapa
+
 
 
 def excluir_tarefa():
@@ -109,31 +121,22 @@ def editar_tarefa():
         print(VERMELHO + "Nenhuma tarefa para editar." + RESET)
         return
 
-    listar_tarefas()
+    mapa = listar_tarefas()
+
     try:
-        idx = int(input("Digite o número da tarefa a editar (ex: 1): ").strip())
+        idx_user = int(input("Digite o número da tarefa a editar: ").strip())
     except:
         print(VERMELHO + "Entrada inválida." + RESET)
         return
 
-    if idx < 1 or idx > len(cuidados):
+    if idx_user not in mapa:
         print(VERMELHO + "Índice fora do intervalo." + RESET)
         return
 
-    tarefa = cuidados[idx - 1]
-    print("Deixe em branco para manter o valor atual.")
+    idx_real = mapa[idx_user]
+    tarefa = cuidados[idx_real]
 
-    try:
-        novo_id_animal_str = input(f"Novo ID do animal [{tarefa['id_animal']}]: ").strip()
-        if novo_id_animal_str:
-            novo_id_animal = int(novo_id_animal_str)
-            if not id_existe_animal(novo_id_animal):
-                print(VERMELHO + "Animal inexistente." + RESET)
-                return
-            tarefa['id_animal'] = novo_id_animal
-    except:
-        print(VERMELHO + "ID inválido." + RESET)
-        return
+    print("Deixe vazio para manter o valor atual.")
 
     nova_desc = input(f"Nova descrição [{tarefa['descricao']}]: ").strip()
     nova_data = input(f"Nova data [{tarefa['data_prevista']}]: ").strip()
@@ -147,4 +150,4 @@ def editar_tarefa():
         tarefa['responsavel'] = novo_resp
 
     salvar_cuidados(cuidados)
-    print(VERDE + "Tarefa atualizada!" + RESET)
+    print(VERDE + "Tarefa atualizada com sucesso!" + RESET)
