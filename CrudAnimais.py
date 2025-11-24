@@ -33,7 +33,6 @@ def carregar_animais():
 
 
 def salvar_animais(animais):
-    """Escreve toda a lista no arquivo."""
     with open(ARQUIVO_ANIMAIS, "w", encoding="utf-8") as arq:
         for a in animais:
             arq.write(

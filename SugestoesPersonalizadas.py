@@ -81,4 +81,4 @@ def main_sugestoes():
     sugestoes_personalizadas(idade, especie)
 
 if __name__ == "__main__":
-    main_sugestoes()  # Só roda se você ABRIR esse arquivo diretamente
+    main_sugestoes() 
