@@ -2,10 +2,7 @@
 from CrudAnimais import carregar_animais, AMARELO, RESET, AZUL
 
 def recomendar_animal():
-    """
-    Recomenda um animal baseado no perfil do adotante.
-    Pergunta características e escolhe o mais compatível.
-    """
+
 
     print(f"\n{AZUL}=== RECOMENDAÇÃO DE ANIMAL ==={RESET}")
 
