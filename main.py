@@ -17,47 +17,60 @@ def menu():
         print("\n1. Adicionar Animal")
         print("2. Visualizar Animais")
         print("3. Editar Animais")
-        print("4. Cadastrar Tarefa")
-        print("5. Listar Tarefas")
-        print("6. Editar Tarefa")
-        print("7. Excluir Tarefa")
-        print("8. Visualizar Alertas")
-        print("9. Verificar Alertas Proximos")
-        print("10. Recomendar Animal")
-        print("11. Sugestões Personalizadas")
-        print("12. Excluir Animal")
-        print("13. Sair")
+        print("4. Excluir Animal")
+        print("5. Cadastrar Tarefa")
+        print("6. Listar Tarefas")
+        print("7. Editar Tarefa")
+        print("8. Excluir Tarefa")
+        print("9. Exibir Alertas")
+        print("10. Exibir Alertas Proximos")
+        print("11. Recomendar Animal")
+        print("12. Sugestões Personalizadas")
+        print("0. Sair")
         
 
         opcao = input("Escolha: ").strip()
 
         if opcao == "1":
             adicionar_animal()
+
         elif opcao == "2":
             visualizar_animais()
+
         elif opcao == "3":
             editar_animais()
+
         elif opcao == "4":
-            cadastrar_tarefa()
-        elif opcao == "5":
-            listar_tarefas()
-        elif opcao == "6":
-            editar_tarefa()
-        elif opcao == "7":
-            excluir_tarefa()
-        elif opcao == "8":
-            exibir_alertas()
-        elif opcao == "9":
-            exibir_alertas_proximos()
-        elif opcao == "10":
-            recomendar_animal()
-        elif opcao == "11":
-            main_sugestoes()
-        elif opcao == "12":
             excluir_animal()
-        elif opcao == "13":
+
+        elif opcao == "5":
+            cadastrar_tarefa()
+
+        elif opcao == "6":
+            listar_tarefas()
+
+        elif opcao == "7":
+            editar_tarefa()
+
+        elif opcao == "8":
+            excluir_tarefa()
+
+        elif opcao == "9":
+            exibir_alertas()
+
+        elif opcao == "10":
+            exibir_alertas_proximos()
+
+        elif opcao == "11":
+            recomendar_animal()
+
+        elif opcao == "12":
+            main_sugestoes()
+
+        elif opcao == "0":
             print(AZUL + "Saindo..." + RESET)
             break
+        
         else:
             print(VERMELHO + "Opção inválida!" + RESET)
 
