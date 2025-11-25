@@ -1,4 +1,4 @@
-from CrudAnimais import adicionar_animal, visualizar_animais, editar_animais, AZUL,VERMELHO, RESET
+from CrudAnimais import adicionar_animal, visualizar_animais, editar_animais, excluir_animal, AZUL,VERMELHO, RESET
 from CadastroDeCuidados import cadastrar_tarefa, listar_tarefas, editar_tarefa, excluir_tarefa
 from ContagemRegressiva import exibir_alertas, exibir_alertas_proximos
 from Recomendador import recomendar_animal
@@ -25,7 +25,8 @@ def menu():
         print("9. Verificar Alertas Proximos")
         print("10. Recomendar Animal")
         print("11. Sugestões Personalizadas")
-        print("12. Sair")
+        print("12. Excluir Animal")
+        print("13. Sair")
         
 
         opcao = input("Escolha: ").strip()
@@ -53,6 +54,9 @@ def menu():
         elif opcao == "11":
             main_sugestoes()
         elif opcao == "12":
+            excluir_animal()
+        elif opcao == "13":
+            print(AZUL + "Saindo..." + RESET)
             break
         else:
             print(VERMELHO + "Opção inválida!" + RESET)

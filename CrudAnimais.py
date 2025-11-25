@@ -153,3 +153,33 @@ def editar_animais():
             return
 
     print(VERMELHO + "\nAnimal não encontrado." + RESET)
+
+
+def excluir_animal():
+    animais = carregar_animais()
+
+    if not animais:
+        print(VERMELHO + "\nNenhum animal cadastrado." + RESET)
+        return
+
+    visualizar_animais()
+
+    try:
+        id_del = int(input("\nID do animal que deseja excluir: ").strip())
+    except:
+        print(VERMELHO + "ID inválido!" + RESET)
+        return
+
+    for a in animais:
+        if a["id"] == id_del:
+            confirma = input(f"Tem certeza que deseja excluir o animal '{a['nome']}'? (s/n): ").strip().lower()
+            if confirma != "s":
+                print(AMARELO + "Ação cancelada." + RESET)
+                return
+
+            animais.remove(a)
+            salvar_animais(animais)
+            print(VERDE + "\nAnimal excluído com sucesso!" + RESET)
+            return
+
+    print(VERMELHO + "\nAnimal não encontrado." + RESET)
